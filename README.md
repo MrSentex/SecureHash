@@ -1,37 +1,52 @@
-## Welcome to GitHub Pages
+# SecureHash v0.1
 
-You can use the [editor on GitHub](https://github.com/MrSentex/SecureHash/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+SecureHash by MrSentex.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## What is SecureHash?
 
-### Markdown
+SecureHash is a program to protect data in your server such as passwords, usernames, emails, etc... This program makes a pre hash which is equals to the addition or rest of the ascii number value of each character of the string that you passed to the function `Hash`. This pre hash will be added to a string who will contain:  
+  
+`A text of your choice without hashing + Separation character of your choice + The pre hash hashed or not by the algorithm you specified in config + Separation character of your choice + The string you want to hash encoded in base64.`
+  
+This string would be hashed in the algorithm you specified in the config as the algorithm of the pre hash.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## How to use it?
 
-```markdown
-Syntax highlighted code block
+It is easy to start using SecureHash, even for the beginners in PHP. If you are a experimented developer in PHP or a crazy beginner you can modify the program. It is very easy to do it; you just need to edit `SecureHash.php` and overwrite the private values at the top of the script. If you do not want to modify anything you can use the default configuration (It is pretty strong anyway).
 
-# Header 1
-## Header 2
-### Header 3
+With the script already configured you only need to include `SecureHash.php` in the script you want and start using it calling to the class: `SecureHash`. You have two available functions:
 
-- Bulleted
-- List
+#### Hash(string => data you want to hash)  
 
-1. Numbered
-2. List
+This function returns the hashed value of the data you passed in the $string parameter.
 
-**Bold** and _Italic_ and `Code` text
+#### verifyHash(string => data you want to verify, string => hashed value you want to verify)  
 
-[Link](url) and ![Image](src)
+This function returns `true` or `false`.
+
+If the hashed data is equal to the hashed parameter, it will return `true`. If not, the function will return `false`.
+
+There is a little example:    
+```php
+<?php
+
+include("SecureHash.php") ;
+
+// If you change the name of the program file you must need to change the include.
+// If you put the file in another path of the script you are calling it you will need to add the path in the include.
+
+$SecureHash = new SecureHash();
+$word = "admin";
+
+$hash = $SecureHash->Hash($word);
+$verify = $SecureHash->verifyHash($word, $hash);
+
+echo "Hash: " . $hash . "\n";
+echo "Verify: " . $verify . "\n";
+
+?>
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Warning
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/MrSentex/SecureHash/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+If you change the config of the program when you have already started using it, the output of the functions: `Hash` and `verifyHash` can vary, so that the script which is using SecureHash could not work correctly.
